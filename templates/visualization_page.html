@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ chart_title }}</title>
+    <!-- Vega-Embed CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <style>
+        /* Reset body margins */
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        /* Full-page white background and centered layout */
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        /* Header title centered */
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin: 20px 0;
+        }
+        /* Chart centered */
+        #vis {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+        /* Navigation and links centered */
+        nav {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        nav a {
+            margin: 0 10px;
+            padding: 8px 15px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #3498db;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #2980b9;
+        }
+        .home-links {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 30px;
+        }
+        .home-links p {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        .home-links nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .back-link-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        /* Footer remains fixed, position unchanged */
+        .footer {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ chart_title }}</h1>
+
+        {% if show_links %}
+        <div class="home-links">
+            <p>Please select a visualization:</p>
+            <nav>
+                <a href="/viz/scatter-bar">Temp vs. Trips (Scatter & Bar)</a>
+                <a href="/viz/interactive-legend">Duration vs. Trips (Interactive Legend)</a>
+                <a href="/viz/duration-explorer">Duration/Trips Explorer (Linked to City Totals)</a>
+                <a href="/viz/map-histogram">Geospatial Map & Duration Histogram</a>
+            </nav>
+        </div>
+        {% else %}
+        <div class="back-link-container">
+            <nav>
+                <a href="/">Back to Home</a>
+            </nav>
+        </div>
+        {% endif %}
+
+        {% if chart_spec %}
+        <div id="vis"></div>
+        <script type="text/javascript">
+            const spec = {{ chart_spec | safe }};
+            const embedOpt = {"actions": true};
+            if (spec && spec.project) {
+                embedOpt.width = spec.width || 800;
+                embedOpt.height = spec.height || 500;
+            }
+            vegaEmbed('#vis', spec, embedOpt).catch(console.error);
+        </script>
+        {% endif %}
+    </div>
+    <div class="footer">
+        &copy; <script>document.write(new Date().getFullYear());</script> Created by Xishunxuan. All rights reserved.
+    </div>
+</body>
+</html>
