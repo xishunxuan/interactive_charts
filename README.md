@@ -19,8 +19,7 @@ This project provides an interactive data visualization web application for expl
 1. Clone the repository:
 
    ```bash
-   git clone <repository-url>
-   cd <repository-folder>
+   git clone https://github.com/xishunxuan/interactive_charts.git
    ```
 
 2. Create and activate a virtual environment (optional but recommended):
